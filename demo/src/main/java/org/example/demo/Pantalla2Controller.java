@@ -34,7 +34,7 @@ public class Pantalla2Controller {
         nombreTableColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getNombre()));
         precioTableColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getPrecio()));
 
-        tablaBocatas.setItems(listaBocatas);
+        tablaBocatas.setItems(RepositorioBocatas.getBocatas());
     }
 
     @FXML
@@ -50,13 +50,15 @@ public class Pantalla2Controller {
 
         try {
             precio = Double.parseDouble(PrecioTextField.getText());
-        }catch (Exception e){
+        }catch (NumberFormatException e){
             System.out.println("Precio inválido");
             PrecioTextField.clear();
             return;
         }
+
         Bocata bocata = new Bocata(nombre,precio);
-        listaBocatas.add(bocata);
+
+        RepositorioBocatas.insertarBocatas(bocata);
 
         System.out.println("Bocadillo creado: "+ bocata.getNombre() +"con precio: "+bocata.getPrecio()+"€");
 
